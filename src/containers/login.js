@@ -2,6 +2,9 @@ import React, {Component} from 'react';
 import {View, StyleSheet, Dimensions, Platform} from 'react-native';
 import {SocialIcon} from 'react-native-elements';
 import OAuthManager from 'react-native-oauth';
+import {connect} from 'react-redux';
+import {authorize} from '../actions';
+import setAuthToken from '../utils/setAuthToken';
 
 const {width} = Dimensions.get('window');
 
@@ -16,12 +19,17 @@ const configs = {
   },
 };
 
-export default class Login extends Component {
+class Login extends Component {
   static navigationOptions = {
     header: null,
   };
   constructor(props) {
     super(props);
+    if (props.auth.accessToken) {
+      setAuthToken(props.auth.accessToken);
+      this.props.navigation.replace('Dashboard');
+      return;
+    }
     this.onLoginPress = this.onLoginPress.bind(this);
   }
   onLoginPress() {
@@ -33,6 +41,8 @@ export default class Login extends Component {
       .authorize('github', {scopes: 'user:email read:user gist'})
       .then(resp => {
         console.log(resp);
+        setAuthToken(resp.response.credentials.accessToken);
+        this.props.authorize(resp.response.credentials);
         this.props.navigation.replace('Dashboard');
       })
       .catch(err => console.log('There was an error', err));
@@ -60,3 +70,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
+
+const mapStatesToProps = ({auth}) => ({auth});
+
+export default connect(
+  mapStatesToProps,
+  {authorize},
+)(Login);

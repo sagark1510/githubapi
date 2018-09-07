@@ -2,8 +2,11 @@ import React, {Component} from 'react';
 import {Text, View, StyleSheet} from 'react-native';
 import {Button} from 'react-native-elements';
 import OAuthManager from 'react-native-oauth';
+import {connect} from 'react-redux';
+import {logout} from '../actions';
+import setAuthToken from '../utils/setAuthToken';
 
-export default class Dashboard extends Component {
+class Dashboard extends Component {
   static navigationOptions = {
     title: 'Dashboard',
   };
@@ -14,6 +17,8 @@ export default class Dashboard extends Component {
   logout() {
     const manager = new OAuthManager('githubapi');
     manager.deauthorize('github');
+    setAuthToken(null);
+    this.props.logout();
     this.props.navigation.replace('Login');
   }
   render() {
@@ -31,3 +36,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
+export default connect(
+  null,
+  {logout},
+)(Dashboard);
