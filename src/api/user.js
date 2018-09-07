@@ -10,7 +10,7 @@ export const searchUser = async params => {
   return response.data;
 };
 
-export const fetchSingleUser = async url => {
+export const fetchFromUrl = async url => {
   const response = await Api.get(url);
   return response.data;
 };

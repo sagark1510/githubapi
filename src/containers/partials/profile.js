@@ -16,16 +16,20 @@ export default class profile extends Component {
             <Text style={style.mtl}>{user.bio}</Text>
           </View>
           <Card containerStyle={[style.mbl, {padding: 0}]}>
-            <ListItem
-              hideChevron
-              leftIcon={{name: 'md-mail', type: 'ionicon'}}
-              title={user.email}
-            />
-            <ListItem
-              hideChevron
-              leftIcon={{name: 'md-briefcase', type: 'ionicon'}}
-              title={user.company}
-            />
+            {user.email ? (
+              <ListItem
+                hideChevron
+                leftIcon={{name: 'md-mail', type: 'ionicon'}}
+                title={user.email}
+              />
+            ) : null}
+            {user.company ? (
+              <ListItem
+                hideChevron
+                leftIcon={{name: 'md-briefcase', type: 'ionicon'}}
+                title={user.company}
+              />
+            ) : null}
             <ListItem
               hideChevron
               leftIcon={{name: 'md-calendar', type: 'ionicon'}}
@@ -34,17 +38,19 @@ export default class profile extends Component {
               }
             />
             <ListItem
-              hideChevron
               leftIcon={{name: 'md-analytics', type: 'ionicon'}}
               title={`${user.public_repos} public repositories`}
+              onPress={() =>
+                this.props.navigation.navigate('Repositories', {
+                  url: user.repos_url,
+                })
+              }
             />
             <ListItem
-              hideChevron
               leftIcon={{name: 'md-aperture', type: 'ionicon'}}
               title={`${user.followers} followers`}
             />
             <ListItem
-              hideChevron
               leftIcon={{name: 'md-attach', type: 'ionicon'}}
               title={`${user.following} following`}
             />

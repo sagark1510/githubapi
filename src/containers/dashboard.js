@@ -1,12 +1,11 @@
 import React, {Component} from 'react';
-import {View, ActivityIndicator} from 'react-native';
 import OAuthManager from 'react-native-oauth';
 import {connect} from 'react-redux';
 import {Button} from 'react-native-elements';
 import {logout, fetchCurrentUser} from '../actions';
 import setAuthToken from '../utils/setAuthToken';
-import {style} from '../assets/theme';
 import Profile from './partials/profile';
+import Loader from './partials/loader';
 
 class Dashboard extends Component {
   static navigationOptions = {
@@ -29,14 +28,10 @@ class Dashboard extends Component {
   render() {
     const {fetching, user: currentUser} = this.props.user;
     if (fetching) {
-      return (
-        <View style={[style.container, style.center]}>
-          <ActivityIndicator />
-        </View>
-      );
+      return <Loader />;
     }
     return (
-      <Profile user={currentUser}>
+      <Profile navigation={this.props.navigation} user={currentUser}>
         <Button
           backgroundColor="#ff5723"
           title="Search Github Users"

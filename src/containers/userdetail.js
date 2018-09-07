@@ -1,30 +1,23 @@
 import React, {Component} from 'react';
-import {View, ActivityIndicator} from 'react-native';
-import {Text} from 'react-native-elements';
-import {fetchSingleUser} from '../api/user';
-import {style} from '../assets/theme';
+import {fetchFromUrl} from '../api/user';
 import Profile from './partials/profile';
+import Loader from './partials/loader';
 
 export default class UserDetail extends Component {
   static navigationOptions = ({navigation}) => ({
-    title: navigation.state.params.user.login,
+    title: navigation.state.params.user.login.toUpperCase(),
   });
   state = {user: null, loading: true};
   async componentDidMount() {
     const {user: param} = this.props.navigation.state.params;
-    const user = await fetchSingleUser(param.url);
-    console.log(user);
+    const user = await fetchFromUrl(param.url);
     this.setState({user, loading: false});
   }
   render() {
     const {user, loading} = this.state;
     if (loading) {
-      return (
-        <View style={[style.container, style.center]}>
-          <ActivityIndicator />
-        </View>
-      );
+      return <Loader />;
     }
-    return <Profile user={user} />;
+    return <Profile navigation={this.props.navigation} user={user} />;
   }
 }
