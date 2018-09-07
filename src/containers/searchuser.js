@@ -29,6 +29,9 @@ class SearchUser extends Component {
         }
         title={item.login}
         subtitle={item.html_url}
+        onPress={() =>
+          this.props.navigation.navigate('UserDetail', {user: item})
+        }
       />
     );
   }

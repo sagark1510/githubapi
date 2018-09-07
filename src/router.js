@@ -2,12 +2,14 @@ import {createStackNavigator} from 'react-navigation';
 import Login from './containers/login';
 import Dashboard from './containers/dashboard';
 import SearchUser from './containers/searchuser';
+import UserDetail from './containers/userdetail';
 
 const router = createStackNavigator(
   {
     Login,
     Dashboard,
     SearchUser,
+    UserDetail,
   },
   {
     cardStyle: {
