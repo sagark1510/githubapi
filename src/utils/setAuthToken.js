@@ -1,12 +1,12 @@
-import axios from 'axios';
+import Api from '../config/api';
 
 const setAuthToken = token => {
   if (token) {
     // apply to every request
-    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    Api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
   } else {
     // Delete the auth header
-    delete axios.defaults.headers.common.Authorization;
+    delete Api.defaults.headers.common.Authorization;
   }
 };
 

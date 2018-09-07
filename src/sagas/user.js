@@ -1,6 +1,6 @@
 import {all, call, put, takeLatest, select} from 'redux-saga/effects';
 import * as types from '../actions/types';
-import {fetchUser} from '../api/user';
+import {fetchCurrentUser} from '../api/user';
 
 /**
  * Root todo saga
@@ -24,9 +24,9 @@ export function* watchStartUserFetch() {
  */
 export function* doFetchUser({params}) {
   try {
-    const tasks = yield call(fetchUser, params);
+    const user = yield call(fetchCurrentUser, params);
 
-    yield put({type: types.FETCH_USER_SUCCESS, tasks});
+    yield put({type: types.FETCH_USER_SUCCESS, user});
   } catch (e) {
     console.log(e);
   }
