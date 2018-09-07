@@ -97,8 +97,6 @@ class Dashboard extends Component {
   }
 }
 
-const styles = StyleSheet.create({});
-
 const mapStatesToProps = ({user}) => ({user});
 
 export default connect(
