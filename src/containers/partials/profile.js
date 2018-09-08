@@ -40,19 +40,27 @@ export default class profile extends Component {
             <ListItem
               leftIcon={{name: 'md-analytics', type: 'ionicon'}}
               title={`${user.public_repos} public repositories`}
-              onPress={() =>
-                this.props.navigation.navigate('Repositories', {
-                  url: user.repos_url,
-                })
-              }
+              onPress={() => this.props.navigation.push('Repositories', user)}
             />
             <ListItem
               leftIcon={{name: 'md-aperture', type: 'ionicon'}}
               title={`${user.followers} followers`}
+              onPress={() =>
+                this.props.navigation.push('UserList', {
+                  url: user.followers_url,
+                  title: 'Followers',
+                })
+              }
             />
             <ListItem
               leftIcon={{name: 'md-attach', type: 'ionicon'}}
               title={`${user.following} following`}
+              onPress={() =>
+                this.props.navigation.push('UserList', {
+                  url: user.following_url.replace('{/other_user}', ''),
+                  title: 'Followings',
+                })
+              }
             />
           </Card>
           {children}

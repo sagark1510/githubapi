@@ -16,12 +16,25 @@ class Repositories extends Component {
       loading: true,
     };
     this.renderRow = this.renderRow.bind(this);
+    this.loadNextPage = this.loadNextPage.bind(this);
+  }
+  async loadList() {
+    const {repos_url: url} = this.props.navigation.state.params;
+    this.page++;
+    const repos = await fetchFromUrl(`${url}?page=${this.page}`);
+    this.setState({repos: [...this.state.repos, ...repos], loading: false});
   }
   async componentDidMount() {
-    const {url} = this.props.navigation.state.params;
-    const repos = await fetchFromUrl(url);
-    this.setState({repos, loading: false});
+    this.page = 0;
+    this.loadList();
   }
+
+  loadNextPage() {
+    const {public_repos: total} = this.props.navigation.state.params;
+    if (this.state.repos.length >= total) return;
+    this.loadList();
+  }
+
   renderRow({item}) {
     return (
       <ListItem
@@ -53,7 +66,9 @@ class Repositories extends Component {
           <FlatList
             data={repos}
             renderItem={this.renderRow}
-            keyExtractor={item => item.id}
+            keyExtractor={item => `${item.id}`}
+            onEndReachedThreshold={0.1}
+            onEndReached={this.loadNextPage}
           />
         </List>
       </View>

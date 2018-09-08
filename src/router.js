@@ -4,6 +4,7 @@ import Dashboard from './containers/dashboard';
 import SearchUser from './containers/searchuser';
 import UserDetail from './containers/userdetail';
 import Repositories from './containers/repositories';
+import UserList from './containers/userlist';
 
 const router = createStackNavigator(
   {
@@ -12,6 +13,7 @@ const router = createStackNavigator(
     SearchUser,
     UserDetail,
     Repositories,
+    UserList,
   },
   {
     cardStyle: {
